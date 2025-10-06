@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Ledger Project Specific
+# 忽略所有个人数据和生成的报告
+# 注意：保留空目录，以便应用正常运行
+# data/*.csv
+# reports/*.md
+# reports/*.png
+
+# 忽略废弃的脚本和非核心文件
+scripts/api.py
+scripts/web_viewer.py
+scripts/report.ipynb
+scripts/sync_remote_csv.py
+scripts/upload.py
+scripts/ledger.shortcut
+scripts/这里是从服务器上下载的项目文档*
+
+# 忽略临时文件
+*.log

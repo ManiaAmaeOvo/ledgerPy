@@ -1,0 +1,136 @@
+/* static/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+
+:root {
+    --primary-color: #0d6efd;
+    --primary-hover: #0b5ed7;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-color: #212529;
+    --border-color: #dee2e6;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    --border-radius: 8px;
+}
+
+body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    width: 100%;
+    box-sizing: border-box;
+    flex-grow: 1;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color), #0056b3);
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 { margin: 0; font-size: 2.5rem; font-weight: 700; }
+footer { text-align: center; padding: 1rem; margin-top: auto; color: var(--secondary-color); font-size: 0.9em; }
+
+/* 按钮基础样式 */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1rem;
+}
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: var(--primary-hover); }
+.btn-secondary { background-color: var(--secondary-color); color: white; }
+.btn-secondary:hover { background-color: #5a6268; }
+
+/* 报告列表卡片 (CSS 修复) */
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+.report-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    display: flex; /* 使用 flex 布局 */
+    flex-direction: column; /* 垂直排列 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.report-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); }
+.card-content { padding: 1.5rem; flex-grow: 1; /* 让内容区占据多余空间 */ }
+.card-content h2 { margin-top: 0; color: var(--primary-color); font-size: 1.25rem; }
+.card-content p { color: var(--secondary-color); font-size: 0.9rem; }
+.card-footer { padding: 0 1.5rem 1.5rem; } /* 按钮的容器 */
+.card-footer .btn { width: 100%; } /* 让按钮填满 footer */
+
+/* 管理页面 & 表单 */
+.manage-section {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+.manage-section h2 { margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.form-radio-group { display: flex; gap: 1rem; align-items: center; }
+.form-actions { grid-column: 1 / -1; margin-top: 1rem; }
+
+/* 消息提示框 */
+.alert {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+.alert-success { color: #0f5132; background-color: #d1e7dd; border-color: #badbcc; }
+.alert-danger { color: #842029; background-color: #f8d7da; border-color: #f5c2c7; }
+
+/* 报告内容样式 (与之前版本一致) */
+.report-view h1, .report-view h2, .report-view h3 { color: var(--primary-color); border-bottom: 2px solid #eee; padding-bottom: 0.5rem; margin-top: 2rem; }
+.report-view table { width: 100%; border-collapse: collapse; margin: 2em 0; box-shadow: var(--shadow); }
+.report-view th, .report-view td { padding: 0.8rem 1rem; border: 1px solid var(--border-color); text-align: left; }
+.report-view th { background-color: #f2f2f2; font-weight: bold; }
+.report-view tr:nth-child(even) { background-color: #f9f9f9; }
+.report-image { max-width: 100%; display: block; margin: 2em auto; border-radius: var(--border-radius); box-shadow: var(--shadow); }
+.button-group { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color); display: flex; gap: 1rem; justify-content: center; }
+.button-group .btn { width: auto; }

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content-box">
+    <form class="login-form" method="post">
+        <h2 style="text-align: center; color: var(--primary-color);">🔒 请输入密码</h2>
+        <p style="text-align: center; color: var(--secondary-color); margin-bottom: 2rem;">查看 {{ month_or_year }} 的报告</p>
+        
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" id="password" name="password" class="form-control" required autofocus>
+        </div>
+        <button type="submit" class="btn">提交</button>
+    </form>
+</div>
+{% endblock %}

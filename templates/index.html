@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% if message %}
+<div class="alert {{ 'alert-success' if '成功' in message else 'alert-danger' }}">{{ message }}</div>
+{% endif %}
+<div style="margin-bottom: 2rem; text-align: center;">
+    <a href="{{ url_for('route_manage') }}" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.2rem;">✨ 管理账单 (新增/导出)</a>
+</div>
+
+<div class="report-grid">
+    {% if reports %}
+        {% for report in reports %}
+        <div class="report-card">
+            <div class="card-content">
+                <h2>{{ report.name.replace('_annual', ' 年度').replace('.md', '') }}</h2>
+                <p>最后更新: {{ report.mtime }}</p>
+            </div>
+            <div class="card-footer">
+                <a href="{{ url_for('route_view_report_login', month_or_year=report.name) }}" class="btn btn-secondary">查看报告</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center; grid-column: 1 / -1;">暂无报告可查看。请前往管理页面添加数据并生成报告。</p>
+    {% endif %}
+</div>
+{% endblock %}

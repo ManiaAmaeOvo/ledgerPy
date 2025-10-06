@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% if message %}
+<div class="alert {{ 'alert-success' if '成功' in message else 'alert-danger' }}">{{ message }}</div>
+{% endif %}
+
+<section class="manage-section">
+    <h2>✏️ 添加新记录</h2>
+    <form action="{{ url_for('route_add_record') }}" method="post">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="date">日期</label>
+                <input type="date" id="date" name="date" class="form-control" value="{{ today_date }}" required>
+            </div>
+            <div class="form-group">
+                <label for="category">类别 (可输入新类别)</label>
+                <input list="categories-list" id="category" name="category" class="form-control" required>
+                <datalist id="categories-list">
+                    {% for cat in categories %}
+                    <option value="{{ cat }}">
+                    {% endfor %}
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="amount">金额</label>
+                <input type="number" step="0.01" id="amount" name="amount" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>类型</label>
+                <div class="form-radio-group">
+                    <input type="radio" id="expense" name="type" value="expense" checked>
+                    <label for="expense">支出</label>
+                    <input type="radio" id="income" name="type" value="income">
+                    <label for="income">收入</label>
+                </div>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="note">备注 (可选)</label>
+                <input type="text" id="note" name="note" class="form-control">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">添加记录</button>
+        </div>
+    </form>
+</section>
+
+<section class="manage-section">
+    <h2>🚀 导出/更新报告</h2>
+    <form action="{{ url_for('route_export_report') }}" method="post">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="month">按月份 (YYYY-MM)</label>
+                <input type="month" id="month" name="month" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="year">按年份 (YYYY)</label>
+                <input type="number" id="year" name="year" class="form-control" placeholder="例如: 2025">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-secondary">生成/更新报告</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

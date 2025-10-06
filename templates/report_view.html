@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content-box">
+    <div class="report-view">
+        {{ report_content | safe }}
+    </div>
+
+    <div class="button-group">
+        <a href="{{ url_for('route_download_file', file_type='md', month_or_year=month_or_year) }}" class="btn">下载 Markdown</a>
+        <a href="{{ url_for('route_download_file', file_type='csv', month_or_year=month_or_year.split('_')[0]) }}" class="btn">下载 CSV</a>
+        <a href="{{ url_for('route_index') }}" class="btn btn-secondary">返回目录</a>
+    </div>
+</div>
+{% endblock %}
