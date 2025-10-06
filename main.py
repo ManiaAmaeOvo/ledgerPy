@@ -8,6 +8,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 import pandas as pd # 引入 pandas 以处理空 CSV 异常
+from fastapi.responses import RedirectResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 # --- 1. 导入你的核心逻辑 ---
 from scripts import ledger, ledger_pro
@@ -17,6 +19,9 @@ BASE_DIR = ledger.BASE_DIR
 DATA_DIR = ledger.DATA_DIR
 REPORT_DIR = ledger.REPORT_DIR
 
+class IPAuthorizationError(Exception):
+    pass
+
 # 已授权的ip
 AUTHORIZED_IPS = set()
 
@@ -25,6 +30,18 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 app.mount("/reports_static", StaticFiles(directory=REPORT_DIR), name="reports_static")
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 templates.env.globals['now'] = datetime.now
+
+@app.exception_handler(IPAuthorizationError)
+async def ip_authorization_exception_handler(request: Request, exc: IPAuthorizationError):
+    """
+    当 verify_ip_authorization 抛出 IPAuthorizationError 时，
+    这个处理器会被激活，并返回一个重定向响应。
+    """
+    message = "❌ 访问被拒绝！请先通过查看任一报告的密码来授权您的设备。"
+    return RedirectResponse(
+        url=f"/?message={message}", 
+        status_code=status.HTTP_303_SEE_OTHER
+    )
 
 # --- 3. Pydantic 数据模型 ---
 class Record(BaseModel):
@@ -54,19 +71,13 @@ def get_all_categories() -> list:
             continue
     return sorted(list(categories))
 
+# 🆕 2. 修改依赖项，使其在验证失败时抛出异常
 async def verify_ip_authorization(request: Request):
     """
-    检查请求的 IP 是否在 AUTHORIZED_IPS 集合中。
-    如果不在，则重定向到首页并附带错误消息。
+    检查 IP 是否已授权。如果未授权，则抛出 IPAuthorizationError 异常。
     """
     if request.client.host not in AUTHORIZED_IPS:
-        # 为了更好的用户体验，我们重定向而不是返回 403 Forbidden 错误
-        message = "❌ 访问被拒绝！请先通过查看任一报告的密码来授权您的设备。"
-        return RedirectResponse(
-            url=f"/?message={message}", # 重定向到首页
-            status_code=status.HTTP_303_SEE_OTHER
-        )
-    return True # 如果 IP 已授权，则继续
+        raise IPAuthorizationError()
 
 # --- 5. Web 界面路由 ---
 
