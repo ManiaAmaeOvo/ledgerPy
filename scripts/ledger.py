@@ -107,7 +107,8 @@ def export_md(month):
 
     # 确保日期列是 datetime 类型
     df["date"] = pd.to_datetime(df["date"])
-
+    df = df.sort_values(by="date", ascending=True)
+    
     pie_path = None
     line_path = None
     daily_line_path = None

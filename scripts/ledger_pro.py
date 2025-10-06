@@ -44,7 +44,9 @@ def generate_multi_month_report(months: list):
         if df_month.empty:
             print(f"⚠️ {month} 月没有记录")
             continue
-
+        
+        df_month["date"] = pd.to_datetime(df_month["date"])
+        df_month = df_month.sort_values(by="date", ascending=True)
         income, expense, net = calculate_monthly_summary(df_month)
         total_income_all_months += income
         total_expense_all_months += expense
